@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grand Infinity Variety Trading — Custom Blinds & Window Solutions</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+  h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; letter-spacing: -0.01em; }
+  .fade-in { animation: fade .35s ease-out; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  input, select { transition: border-color .15s, box-shadow .15s; }
+  input:focus, select:focus { outline: none; }
+</style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased">
+
+<!-- NAV -->
+<header class="border-b border-stone-200 bg-white/80 backdrop-blur sticky top-0 z-30">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <span class="w-8 h-8 rounded-full bg-stone-900 text-white grid place-items-center text-xs font-bold tracking-wider">GI</span>
+      <span class="font-semibold text-stone-900">Grand Infinity</span>
+    </a>
+    <nav class="hidden md:flex gap-8 text-sm text-stone-600">
+      <a href="#products" class="hover:text-stone-900">Products</a>
+      <a href="#quote" class="hover:text-stone-900">Get a Quote</a>
+      <a href="#contact" class="hover:text-stone-900">Contact</a>
+    </nav>
+    <a href="#quote" class="text-sm font-medium bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-stone-700 transition">Request Quote</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+  <div>
+    <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-4">Custom Window Blinds</p>
+    <h1 class="text-4xl md:text-5xl font-bold text-stone-900 leading-tight mb-6">
+      Quiet luxury, measured to fit your windows.
+    </h1>
+    <p class="text-stone-600 text-lg mb-8 leading-relaxed">
+      Premium roller, roman, blackout, combi, venetian, and wood blinds — priced fairly per square foot, delivered with care.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="#quote" class="bg-stone-900 text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-stone-700 transition">Get an Instant Quote</a>
+      <a href="#products" class="border border-stone-300 px-6 py-3 rounded-full text-sm font-medium hover:bg-stone-100 transition">Browse Blinds</a>
+    </div>
+  </div>
+  <div class="relative">
+    <div class="aspect-[4/5] rounded-2xl bg-gradient-to-br from-stone-200 via-stone-100 to-stone-300 overflow-hidden shadow-xl">
+      <svg viewBox="0 0 400 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="500" fill="#e7e5e4"/>
+        <rect x="60" y="50" width="280" height="400" fill="#fafaf9" stroke="#a8a29e" stroke-width="3"/>
+        <line x1="200" y1="50" x2="200" y2="450" stroke="#a8a29e" stroke-width="3"/>
+        <g opacity="0.85">
+          <rect x="63" y="53" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="80" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="107" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="134" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="161" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="188" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="215" width="274" height="20" fill="#d6d3d1"/>
+          <rect x="63" y="242" width="274" height="20" fill="#d6d3d1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-stone-200 hidden md:block">
+      <p class="text-xs text-stone-500">Starting at</p>
+      <p class="text-lg font-bold text-stone-900">₱150 / sq ft</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="bg-white border-y border-stone-200">
+  <div class="max-w-6xl mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+      <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-3">Our Collection</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Six finishes. One standard of quality.</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- QUOTE CALCULATOR -->
+<section id="quote" class="max-w-6xl mx-auto px-6 py-20">
+  <div class="grid lg:grid-cols-5 gap-10">
+    <div class="lg:col-span-2">
+      <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-3">Instant Quote</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-stone-900 mb-4">Tell us about your windows.</h2>
+      <p class="text-stone-600 leading-relaxed mb-6">
+        Add each window with its area in square feet. We'll calculate a transparent total — and apply a 10% loyalty discount automatically.
+      </p>
+      <ul class="text-sm text-stone-600 space-y-2">
+        <li class="flex gap-2"><span class="text-stone-900">✓</span> Free measurement guidance</li>
+        <li class="flex gap-2"><span class="text-stone-900">✓</span> Quote sent to your email</li>
+        <li class="flex gap-2"><span class="text-stone-900">✓</span> No obligation, no spam</li>
+      </ul>
+      <p class="mt-6 text-xs text-stone-500 bg-stone-100 border border-stone-200 rounded-lg p-3 leading-relaxed">
+        <strong class="text-stone-700">Please note:</strong> All quotations are subject to review. Out-of-town fees may apply for addresses outside Metro Manila (NCR) and will be included in your final confirmed quote.
+      </p>
+    </div>
+
+    <form id="quoteForm" class="lg:col-span-3 bg-white border border-stone-200 rounded-2xl shadow-sm p-6 md:p-8 space-y-6">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-stone-700 mb-1.5" for="fullName">Full Name</label>
+          <input id="fullName" required type="text" placeholder="Maria Santos"
+            class="w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-stone-700 mb-1.5" for="email">Email</label>
+          <input id="email" required type="email" placeholder="you@example.com"
+            class="w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-stone-700 mb-1.5" for="address">Installation Address</label>
+        <textarea id="address" required rows="2" placeholder="Street, Barangay, City, Province"
+          class="w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10 resize-y"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-stone-700 mb-1.5" for="blindsType">Blinds Type</label>
+        <select id="blindsType" required
+          class="w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm bg-white focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10">
+          <option value="">Select a blinds type...</option>
+          <option value="Roller Blinds">Roller Blinds — ₱150 / sq ft</option>
+          <option value="Roman Blinds">Roman Blinds — ₱200 / sq ft</option>
+          <option value="Combi Shades">Combi Shades — ₱200 / sq ft</option>
+          <option value="Black-out Blinds">Black-out Blinds — ₱250 / sq ft</option>
+          <option value="Venetian Blinds">Venetian Blinds — ₱300 / sq ft</option>
+          <option value="Wood Blinds">Wood Blinds — ₱500 / sq ft</option>
+        </select>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-sm font-medium text-stone-700">Windows & Measurements</label>
+          <button type="button" id="addWindowBtn"
+            class="text-xs font-semibold text-stone-900 hover:text-stone-600 transition">+ Add Window</button>
+        </div>
+        <div id="windowsList" class="space-y-2"></div>
+        <p class="text-xs text-stone-500 mt-2">Enter the area of each window in square feet (width × height ÷ 1).</p>
+      </div>
+
+      <!-- Live total -->
+      <div class="bg-stone-50 border border-stone-200 rounded-xl p-5">
+        <div class="flex justify-between text-sm text-stone-600 mb-1">
+          <span>Subtotal</span><span id="subtotal">₱0.00</span>
+        </div>
+        <div class="flex justify-between text-sm text-stone-600 mb-3">
+          <span>Discount (10%)</span><span id="discount">−₱0.00</span>
+        </div>
+        <div class="flex justify-between items-end pt-3 border-t border-stone-200">
+          <span class="text-stone-900 font-medium">Estimated Total</span>
+          <span id="total" class="text-2xl font-bold text-stone-900">₱0.00</span>
+        </div>
+      </div>
+
+      <button id="submitBtn" type="submit"
+        class="w-full bg-stone-900 text-white py-3.5 rounded-full text-sm font-semibold hover:bg-stone-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
+        Send My Quote
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="bg-stone-900 text-stone-100">
+  <div class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
+    <div>
+      <h3 class="text-2xl font-bold mb-3">Grand Infinity Variety Trading</h3>
+      <p class="text-stone-400 text-sm leading-relaxed">Custom window blinds, hand-measured and built to last.</p>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-3">Contact</p>
+      <a href="mailto:luispahutan@gmail.com" class="block text-stone-100 hover:text-white">luispahutan@gmail.com</a>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-3">Hours</p>
+      <p class="text-stone-300 text-sm">Mon – Sat &nbsp; 9:00 – 18:00</p>
+    </div>
+  </div>
+  <div class="border-t border-stone-800">
+    <p class="max-w-6xl mx-auto px-6 py-5 text-xs text-stone-500">© <span id="year"></span> Grand Infinity Variety Trading. All rights reserved.</p>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE POPUP -->
+<div id="popup" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/60 backdrop-blur-sm p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-7 fade-in relative">
+    <button id="popupClose" class="absolute top-3 right-3 text-stone-400 hover:text-stone-700 text-xl leading-none">&times;</button>
+    <p class="text-xs uppercase tracking-[0.2em] text-stone-500 mb-2">Exclusive Offer</p>
+    <h3 class="text-2xl font-bold text-stone-900 mb-3">Get 10% off your first order.</h3>
+    <p class="text-stone-600 text-sm mb-5">Drop your email and we'll send your discount code plus our blinds care guide.</p>
+    <form id="popupForm" class="space-y-3">
+      <input id="popupEmail" type="email" required placeholder="you@example.com"
+        class="w-full rounded-lg border border-stone-300 px-3.5 py-2.5 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" />
+      <button type="submit" class="w-full bg-stone-900 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-stone-700 transition">
+        Claim My Discount
+      </button>
+    </form>
+    <p id="popupSuccess" class="hidden text-center text-sm text-green-700 mt-3">Thanks! Check your inbox shortly.</p>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div id="successModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-900/60 backdrop-blur-sm p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 fade-in text-center">
+    <div class="w-14 h-14 mx-auto rounded-full bg-green-100 grid place-items-center mb-5">
+      <svg class="w-7 h-7 text-green-700" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <h3 class="text-2xl font-bold text-stone-900 mb-2">Quotation Received!</h3>
+    <p class="text-stone-600 leading-relaxed mb-4">
+      Your request is being reviewed by our team. We'll reach out to you shortly with a confirmed quote and next steps.
+    </p>
+    <p class="text-xs text-stone-500 leading-relaxed mb-6 bg-stone-50 border border-stone-200 rounded-lg p-3">
+      <strong class="text-stone-700">Note:</strong> For installations outside Metro Manila (NCR), out-of-town fees may apply and will be reflected in your final quotation.
+    </p>
+    <button id="successClose" class="bg-stone-900 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-stone-700 transition">
+      Got it, thanks
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-stone-900 text-white text-sm px-5 py-3 rounded-lg shadow-xl fade-in"></div>
+
+<script>
+(function () {
+  const PRICES = {
+    "Roller Blinds": 150,
+    "Roman Blinds": 200,
+    "Combi Shades": 200,
+    "Black-out Blinds": 250,
+    "Venetian Blinds": 300,
+    "Wood Blinds": 500
+  };
+  const RECIPIENT = "luispahutan@gmail.com";
+  // Google Apps Script Web App URL — append form submissions to a Google Sheet.
+  // Replace this with the deployed Web App URL from luispahutan@gmail.com's Apps Script.
+  const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbwy_VI27Kqo246w7pdGrpvwULIx_rVyIfsJIzcF5cu-XEDOg3lfFLIizX11kxxPavFN/exec";
+
+  // Render product cards
+  const grid = document.getElementById('productGrid');
+  const PRODUCTS = {
+    "Roller Blinds": {
+      blurb: "Smooth, simple, and effortless to operate — a modern essential.",
+      img:   "https://www.spotlightstores.com/medias/productHero-SPOTWF-BP80425612-cloud.jpg?context=bWFzdGVyfGltYWdlc3w5NzI3NnxpbWFnZS9qcGVnfGltYWdlcy9oZDcvaDBmLzE2ODQ0MjA2Mjc2NjM4L3Byb2R1Y3RIZXJvX1NQT1RXRl9CUDgwNDI1NjEyLWNsb3VkLmpwZ3wxZjM4NzU2NmQ0ZGYwMmFkOTU5YmVkMmQ4MmI0YTc1ZDE0MDQ1ODliZmFkYTdkYjE5ZGUyN2RmYzlhNzllMDU0"
+    },
+    "Roman Blinds": {
+      blurb: "Soft folds of fabric that bring warmth to any room.",
+      img:   "https://www.blindsbytuiss.co.nz/content/product-images/manila-cedar-demerara-36-roman-blind-1.jpg"
+    },
+    "Combi Shades": {
+      blurb: "Alternating sheer and solid bands for adjustable light.",
+      img:   "https://www.gobizkorea.com/image/goodsImage.do?goods_no=GS2019022560904&image_se_code=MAIN_THUMB10A"
+    },
+    "Black-out Blinds": {
+      blurb: "Total light control for bedrooms and media rooms.",
+      img:   "https://img.lazcdn.com/g/p/0dbff61cf8f5dfbd6e246f3831108f57.jpg_960x960q80.jpg_.webp"
+    },
+    "Venetian Blinds": {
+      blurb: "Classic horizontal slats with precise tilt control.",
+      img:   "https://www.unbeatableblinds.co.uk/wp-content/uploads/2021/05/aluminium_venetian_grey_perforated_zoom.jpg"
+    },
+    "Wood Blinds": {
+      blurb: "Natural timber finish that elevates any interior.",
+      img:   "https://www.hunterdouglas.asia/cms/ckeditor-ckfinder-integration/uploads/images/Best-Outdoor-Blinds-for-your-Balconies_621x375.jpg"
+    }
+  };
+  grid.innerHTML = Object.keys(PRICES).map(name => `
+    <div class="group rounded-xl border border-stone-200 bg-stone-50 overflow-hidden hover:border-stone-900 hover:shadow-md transition">
+      <div class="aspect-[4/3] overflow-hidden bg-stone-200">
+        <img src="${PRODUCTS[name].img}" alt="${name}" loading="lazy"
+             class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x450/e7e5e4/78716c?text=${encodeURIComponent(name)}';" />
+      </div>
+      <div class="p-6">
+        <h3 class="text-lg font-bold text-stone-900 mb-1">${name}</h3>
+        <p class="text-sm text-stone-600 mb-3">${PRODUCTS[name].blurb}</p>
+        <p class="text-sm font-semibold text-stone-900">₱${PRICES[name]} <span class="text-stone-500 font-normal">/ sq ft</span></p>
+      </div>
+    </div>
+  `).join('');
+
+  // Windows dynamic list
+  const windowsList = document.getElementById('windowsList');
+  const addWindowBtn = document.getElementById('addWindowBtn');
+  let windowCount = 0;
+
+  function addWindowRow(initial = '') {
+    windowCount++;
+    const row = document.createElement('div');
+    row.className = 'flex gap-2 items-center';
+    row.innerHTML = `
+      <span class="text-xs font-medium text-stone-500 w-16">Window ${windowCount}</span>
+      <input type="number" required min="0.1" step="0.1" placeholder="sq ft" value="${initial}"
+        class="window-input flex-1 rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" />
+      <button type="button" class="remove-btn text-stone-400 hover:text-red-600 px-2 text-lg leading-none">&times;</button>
+    `;
+    windowsList.appendChild(row);
+    row.querySelector('.remove-btn').addEventListener('click', () => {
+      row.remove();
+      renumber();
+      recalc();
+    });
+    row.querySelector('.window-input').addEventListener('input', recalc);
+  }
+
+  function renumber() {
+    [...windowsList.children].forEach((row, i) => {
+      row.querySelector('span').textContent = `Window ${i + 1}`;
+    });
+    windowCount = windowsList.children.length;
+  }
+
+  addWindowBtn.addEventListener('click', () => addWindowRow());
+  addWindowRow();
+
+  // Pricing
+  const blindsTypeEl = document.getElementById('blindsType');
+  const subtotalEl = document.getElementById('subtotal');
+  const discountEl = document.getElementById('discount');
+  const totalEl = document.getElementById('total');
+
+  function fmt(n) {
+    return '₱' + n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function getWindows() {
+    return [...document.querySelectorAll('.window-input')]
+      .map(i => parseFloat(i.value))
+      .filter(v => !isNaN(v) && v > 0);
+  }
+
+  function recalc() {
+    const price = PRICES[blindsTypeEl.value] || 0;
+    const totalSqFt = getWindows().reduce((a, b) => a + b, 0);
+    const subtotal = price * totalSqFt;
+    const discount = subtotal * 0.10;
+    const total = subtotal - discount;
+    subtotalEl.textContent = fmt(subtotal);
+    discountEl.textContent = '−' + fmt(discount);
+    totalEl.textContent = fmt(total);
+    return { price, totalSqFt, subtotal, discount, total };
+  }
+  blindsTypeEl.addEventListener('change', recalc);
+
+  // Success modal helpers
+  const successModal = document.getElementById('successModal');
+  function openSuccess() {
+    successModal.classList.remove('hidden');
+    successModal.classList.add('flex');
+  }
+  function closeSuccess() {
+    successModal.classList.add('hidden');
+    successModal.classList.remove('flex');
+  }
+  document.getElementById('successClose').addEventListener('click', closeSuccess);
+  successModal.addEventListener('click', (e) => { if (e.target === successModal) closeSuccess(); });
+
+  // Quote submit -> direct send via FormSubmit.co (no backend required)
+  const submitBtn = document.getElementById('submitBtn');
+  document.getElementById('quoteForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const type = blindsTypeEl.value;
+    const windows = getWindows();
+    if (!name || !email || !address || !type || windows.length === 0) {
+      showToast('Please fill in all fields and add at least one window.');
+      return;
+    }
+    const { price, totalSqFt, subtotal, discount, total } = recalc();
+
+    const message = [
+      `New Quote Request — Grand Infinity Variety Trading`,
+      ``,
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Address: ${address}`,
+      `Blinds Type: ${type} (₱${price}/sq ft)`,
+      ``,
+      `Windows:`,
+      ...windows.map((sf, i) => `  ${i + 1}. ${sf} sq ft`),
+      `Total Area: ${totalSqFt} sq ft`,
+      ``,
+      `Subtotal: ${fmt(subtotal)}`,
+      `Discount (10%): -${fmt(discount)}`,
+      `Estimated Total: ${fmt(total)}`,
+      ``,
+      `Note: Quotation pending review. Out-of-town fees may apply if address is outside NCR.`
+    ].join('\n');
+
+    const autoResponse = [
+      `Hi ${name},`,
+      ``,
+      `Thank you for requesting a quote from Grand Infinity Variety Trading. We've received your details and our team is reviewing your request — we'll be in touch shortly to confirm and arrange next steps.`,
+      ``,
+      `Please note: this estimate is subject to review. If your installation address is outside Metro Manila (NCR), out-of-town fees may apply and will be reflected in your final quotation.`,
+      ``,
+      `Here's a copy of your submitted quotation for your records:`,
+      ``,
+      `Blinds Type: ${type} (₱${price}/sq ft)`,
+      `Installation Address: ${address}`,
+      ``,
+      `Windows:`,
+      ...windows.map((sf, i) => `  ${i + 1}. ${sf} sq ft`),
+      `Total Area: ${totalSqFt} sq ft`,
+      ``,
+      `Subtotal: ${fmt(subtotal)}`,
+      `Discount (10%): -${fmt(discount)}`,
+      `Estimated Total: ${fmt(total)} (pending review)`,
+      ``,
+      `If you have any questions, simply reply to this email or reach us at luispahutan@gmail.com.`,
+      ``,
+      `Warm regards,`,
+      `Grand Infinity Variety Trading`
+    ].join('\n');
+
+    const payload = {
+      _subject: `Quote Request — ${name}`,
+      _template: 'table',
+      _captcha: 'false',
+      _replyto: email,
+      _autoresponse: autoResponse,
+      name,
+      email,
+      address,
+      blinds_type: type,
+      price_per_sqft: `₱${price}`,
+      total_sqft: totalSqFt,
+      windows: windows.map((sf, i) => `Window ${i + 1}: ${sf} sq ft`).join(' | '),
+      subtotal: fmt(subtotal),
+      discount: fmt(discount),
+      estimated_total: fmt(total),
+      message
+    };
+
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
+
+    const sheetsPayload = {
+      timestamp: new Date().toISOString(),
+      name,
+      email,
+      address,
+      blinds_type: type,
+      price_per_sqft: price,
+      total_sqft: totalSqFt,
+      windows: windows.join(', '),
+      window_count: windows.length,
+      subtotal: subtotal,
+      discount: discount,
+      estimated_total: total
+    };
+
+    try {
+      const tasks = [
+        fetch(`https://formsubmit.co/ajax/${RECIPIENT}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+      ];
+      if (SHEETS_WEBHOOK && !SHEETS_WEBHOOK.startsWith('PASTE_')) {
+        tasks.push(
+          fetch(SHEETS_WEBHOOK, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(sheetsPayload)
+          }).catch(() => {})
+        );
+      }
+      const [emailRes] = await Promise.all(tasks);
+      if (!emailRes.ok) throw new Error('Network error');
+      openSuccess();
+      e.target.reset();
+      windowsList.innerHTML = '';
+      windowCount = 0;
+      addWindowRow();
+      recalc();
+    } catch (err) {
+      showToast('Could not send your quote. Please try again or email us directly.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+
+  // Toast
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.remove('hidden');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.add('hidden'), 3500);
+  }
+
+  // Email capture popup
+  const popup = document.getElementById('popup');
+  const popupClose = document.getElementById('popupClose');
+  const popupForm = document.getElementById('popupForm');
+  const popupSuccess = document.getElementById('popupSuccess');
+
+  function openPopup() {
+    if (sessionStorage.getItem('giv_popup_seen')) return;
+    popup.classList.remove('hidden');
+    popup.classList.add('flex');
+    sessionStorage.setItem('giv_popup_seen', '1');
+  }
+  function closePopup() {
+    popup.classList.add('hidden');
+    popup.classList.remove('flex');
+  }
+  setTimeout(openPopup, 6000);
+  popupClose.addEventListener('click', closePopup);
+  popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
+  popupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    popupForm.classList.add('hidden');
+    popupSuccess.classList.remove('hidden');
+    setTimeout(closePopup, 1800);
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

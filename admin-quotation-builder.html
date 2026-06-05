@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grand Infinity Admin Quotation Builder</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --ink: #18181b;
+    --muted: #57534e;
+    --line: rgba(39, 39, 42, 0.12);
+    --sand: #f5f2eb;
+    --gold: #a16207;
+    --panel: rgba(255, 255, 255, 0.78);
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(161, 98, 7, 0.12), transparent 26%),
+      radial-gradient(circle at bottom right, rgba(24, 24, 27, 0.08), transparent 28%),
+      linear-gradient(135deg, #f8f6f1 0%, #efe8dc 100%);
+    color: var(--ink);
+  }
+
+  .serif {
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: -0.02em;
+  }
+
+  .glass {
+    background: var(--panel);
+    backdrop-filter: blur(18px);
+  }
+
+  input,
+  select,
+  textarea {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+  }
+
+  .fade-up {
+    animation: fadeUp 0.35s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+ </style>
+</head>
+<body class="min-h-screen text-stone-900 antialiased">
+  <main class="max-w-7xl mx-auto px-5 py-8 md:px-8 md:py-10">
+    <section class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr] items-start">
+      <div class="glass border border-stone-900/10 rounded-[2rem] shadow-[0_25px_70px_rgba(24,24,27,0.08)] overflow-hidden">
+        <div class="px-6 py-6 md:px-8 md:py-8 border-b border-stone-900/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.8),rgba(255,248,235,0.9))]">
+          <p class="text-[11px] uppercase tracking-[0.28em] text-amber-700 font-semibold mb-3">Admin Manual Quote</p>
+          <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 class="serif text-4xl md:text-5xl leading-none">Build a quotation and push it to Google Sheets.</h1>
+              <p class="mt-4 max-w-2xl text-stone-600 leading-relaxed">
+                Use the required quotation fields only, then submit a manual entry for custom requests, negotiated rates, or assisted admin bookings.
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-xs text-stone-600 min-w-[220px]">
+              <div class="rounded-2xl bg-white/80 border border-stone-900/10 p-3">
+                <span class="block text-stone-500 uppercase tracking-[0.18em] mb-1">Mode</span>
+                <strong class="text-stone-900 text-sm">Manual</strong>
+              </div>
+              <div class="rounded-2xl bg-white/80 border border-stone-900/10 p-3">
+                <span class="block text-stone-500 uppercase tracking-[0.18em] mb-1">Target</span>
+                <strong class="text-stone-900 text-sm">Google Sheets</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form id="adminQuoteForm" class="p-6 md:p-8 space-y-7">
+          <section class="space-y-4">
+            <div class="flex items-center justify-between gap-3">
+              <h2 class="serif text-2xl">Quotation details</h2>
+              <p class="text-xs text-stone-500">Fields marked with <span class="text-amber-700">*</span> are required</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label for="customerName" class="block text-sm font-medium text-stone-700 mb-1.5">Client name <span class="text-amber-700">*</span></label>
+                <input id="customerName" type="text" required placeholder="Fairway Terraces"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+              <div>
+                <label for="customerEmail" class="block text-sm font-medium text-stone-700 mb-1.5">Customer email <span class="text-amber-700">*</span></label>
+                <input id="customerEmail" type="email" required placeholder="client@example.com"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label for="attention" class="block text-sm font-medium text-stone-700 mb-1.5">Attn (contact person)</label>
+                <input id="attention" type="text" placeholder="Kristian Berte - PMO"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+              <div>
+                <label for="quoteDate" class="block text-sm font-medium text-stone-700 mb-1.5">Quotation date <span class="text-amber-700">*</span></label>
+                <input id="quoteDate" type="date" required
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+            </div>
+
+            <div>
+              <label for="installationAddress" class="block text-sm font-medium text-stone-700 mb-1.5">Jobsite / Installation address <span class="text-amber-700">*</span></label>
+              <textarea id="installationAddress" rows="2" required placeholder="Nichols, Pasay"
+                class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm resize-y focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10"></textarea>
+            </div>
+          </section>
+
+          <section class="space-y-4 border-t border-stone-900/10 pt-6">
+            <div class="flex items-center justify-between gap-3">
+              <h2 class="serif text-2xl">Line items</h2>
+              <p class="text-xs text-stone-500">One row per area or product line</p>
+            </div>
+
+            <div class="grid md:grid-cols-[1fr,auto] gap-3 md:items-end">
+              <div>
+                <label for="productType" class="block text-sm font-medium text-stone-700 mb-1.5">Product type</label>
+                <select id="productType"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10">
+                  <optgroup label="Blinds (per sq ft)">
+                    <option value="Roller Blinds">Roller Blinds — ₱150 / sq ft</option>
+                    <option value="Roman Blinds">Roman Blinds — ₱200 / sq ft</option>
+                    <option value="Combi Shades">Combi Shades — ₱200 / sq ft</option>
+                    <option value="Black-out Blinds">Black-out Blinds — ₱250 / sq ft</option>
+                    <option value="Venetian Blinds">Venetian Blinds — ₱300 / sq ft</option>
+                    <option value="Wood Blinds">Wood Blinds — ₱500 / sq ft</option>
+                  </optgroup>
+                  <optgroup label="Windbreaker (per panel)">
+                    <option value="Windbreaker">Windbreaker — ₱39,450 / panel</option>
+                  </optgroup>
+                </select>
+              </div>
+              <button type="button" id="addLineBtn"
+                class="inline-flex items-center justify-center rounded-full border border-stone-900/15 bg-white/80 px-5 py-3 text-sm font-semibold text-stone-900 hover:bg-white transition">
+                + Add line item
+              </button>
+            </div>
+
+            <div id="lineItems" class="space-y-3"></div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+              <div>
+                <label for="discountPercent" class="block text-sm font-medium text-stone-700 mb-1.5">Discount % <span class="text-amber-700">*</span></label>
+                <input id="discountPercent" type="number" min="0" max="100" step="0.1" value="10" required
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+            </div>
+          </section>
+
+          <section class="space-y-4 border-t border-stone-900/10 pt-6">
+            <div class="flex items-center justify-between gap-3">
+              <h2 class="serif text-2xl">Proposal terms</h2>
+              <p class="text-xs text-stone-500">Shown at the bottom of the quotation</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+              <div>
+                <label for="terms" class="block text-sm font-medium text-stone-700 mb-1.5">Terms</label>
+                <input id="terms" type="text" value="30 days UPI"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+              <div>
+                <label for="delivery" class="block text-sm font-medium text-stone-700 mb-1.5">Delivery</label>
+                <input id="delivery" type="text" value="5-7 working days"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+              <div>
+                <label for="priceValidity" class="block text-sm font-medium text-stone-700 mb-1.5">Price validity</label>
+                <input id="priceValidity" type="text" value="30 days"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label for="submittedBy" class="block text-sm font-medium text-stone-700 mb-1.5">Submitted by</label>
+                <input id="submittedBy" type="text" placeholder="Marie Sancho"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+              <div>
+                <label for="reference" class="block text-sm font-medium text-stone-700 mb-1.5">Internal reference</label>
+                <input id="reference" type="text" placeholder="GIVT-ADMIN-001"
+                  class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
+              </div>
+            </div>
+
+            <div>
+              <label for="notes" class="block text-sm font-medium text-stone-700 mb-1.5">Admin notes</label>
+              <textarea id="notes" rows="3" placeholder="Special material, fabrication notes, installation constraints, or internal comments"
+                class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm resize-y focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10"></textarea>
+            </div>
+          </section>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-stone-900/10 pt-6">
+            <p class="text-xs text-stone-500 max-w-xl">
+              This page submits a structured quotation payload directly to the same Google Apps Script endpoint used by the public quote form, tagged as an admin entry.
+            </p>
+            <button id="submitBtn" type="submit"
+              class="inline-flex items-center justify-center rounded-full bg-stone-900 px-6 py-3 text-sm font-semibold text-white hover:bg-stone-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
+              Create Google Sheets Entry
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <aside class="space-y-6 xl:sticky xl:top-8">
+        <div class="glass border border-stone-900/10 rounded-[2rem] p-6 md:p-7 shadow-[0_25px_70px_rgba(24,24,27,0.08)]">
+          <p class="text-[11px] uppercase tracking-[0.28em] text-stone-500 font-semibold mb-3">Live quotation preview</p>
+          <h2 class="serif text-3xl leading-tight mb-1">Quotation / Proposal</h2>
+          <div id="previewMeta" class="text-xs text-stone-500 leading-relaxed mb-4"></div>
+
+          <div class="overflow-hidden rounded-2xl border border-stone-900/10">
+            <table class="w-full text-xs">
+              <thead class="bg-stone-900/5 text-stone-500 uppercase tracking-wide">
+                <tr>
+                  <th class="text-left font-semibold px-3 py-2">Qty</th>
+                  <th class="text-left font-semibold px-3 py-2">Meas / Area</th>
+                  <th class="text-left font-semibold px-3 py-2">Description</th>
+                  <th class="text-right font-semibold px-3 py-2">Unit Price</th>
+                  <th class="text-right font-semibold px-3 py-2">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="previewItems" class="divide-y divide-stone-900/10 text-stone-700"></tbody>
+            </table>
+          </div>
+
+          <div class="mt-4 space-y-2 text-sm">
+            <div class="flex items-center justify-between text-stone-600">
+              <span>Subtotal</span>
+              <strong id="subtotalLabel" class="text-stone-900">₱0.00</strong>
+            </div>
+            <div class="flex items-center justify-between text-stone-600">
+              <span id="discountText">Less 10% discount</span>
+              <strong id="discountLabel" class="text-stone-900">-₱0.00</strong>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-[1.5rem] bg-stone-900 text-stone-50 p-5">
+            <p class="text-xs uppercase tracking-[0.24em] text-stone-400 mb-2">Total amount</p>
+            <p id="totalLabel" class="serif text-4xl">₱0.00</p>
+            <p class="mt-2 text-xs uppercase tracking-[0.2em] text-stone-400">VAT inclusive</p>
+          </div>
+        </div>
+
+        <div class="glass border border-stone-900/10 rounded-[2rem] p-6 md:p-7 shadow-[0_25px_70px_rgba(24,24,27,0.08)]">
+          <p class="text-[11px] uppercase tracking-[0.28em] text-stone-500 font-semibold mb-3">Standard rates</p>
+          <div id="rateList" class="space-y-3 text-sm text-stone-700"></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="toast" class="hidden fixed right-5 bottom-5 z-50 rounded-2xl bg-stone-900 px-5 py-3 text-sm font-medium text-white shadow-2xl fade-up"></div>
+
+  <script>
+    (function () {
+      const BLINDS_PRICES = {
+        "Roller Blinds": 150,
+        "Roman Blinds": 200,
+        "Combi Shades": 200,
+        "Black-out Blinds": 250,
+        "Venetian Blinds": 300,
+        "Wood Blinds": 500
+      };
+      const WINDBREAKER_PRICE = 39450;
+
+      const PRODUCTS = {};
+      Object.entries(BLINDS_PRICES).forEach(function (entry) {
+        PRODUCTS[entry[0]] = { price: entry[1], unit: "sqft", basis: "per sq ft" };
+      });
+      PRODUCTS["Windbreaker"] = { price: WINDBREAKER_PRICE, unit: "Panels", basis: "per panel" };
+
+      const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbwy_VI27Kqo246w7pdGrpvwULIx_rVyIfsJIzcF5cu-XEDOg3lfFLIizX11kxxPavFN/exec";
+
+      const form = document.getElementById("adminQuoteForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const productTypeEl = document.getElementById("productType");
+      const addLineBtn = document.getElementById("addLineBtn");
+      const lineItemsEl = document.getElementById("lineItems");
+      const discountPercentEl = document.getElementById("discountPercent");
+      const quoteDateEl = document.getElementById("quoteDate");
+
+      const previewMeta = document.getElementById("previewMeta");
+      const previewItems = document.getElementById("previewItems");
+      const subtotalLabel = document.getElementById("subtotalLabel");
+      const discountLabel = document.getElementById("discountLabel");
+      const discountText = document.getElementById("discountText");
+      const totalLabel = document.getElementById("totalLabel");
+      const rateList = document.getElementById("rateList");
+      const toast = document.getElementById("toast");
+      let toastTimer = null;
+      let lineSeq = 0;
+
+      quoteDateEl.value = new Date().toISOString().slice(0, 10);
+
+      function formatMoney(value) {
+        return "₱" + Number(value || 0).toLocaleString("en-PH", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      function toNumber(value) {
+        const numeric = parseFloat(value);
+        return Number.isFinite(numeric) ? numeric : 0;
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function formatDate(value) {
+        if (!value) return "";
+        const d = new Date(value + "T00:00:00");
+        if (isNaN(d.getTime())) return value;
+        return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      }
+
+      rateList.innerHTML = Object.keys(PRODUCTS).map(function (name) {
+        const info = PRODUCTS[name];
+        return '<div class="flex items-center justify-between rounded-2xl border border-stone-900/10 bg-white/80 px-4 py-3">'
+          + '<span>' + name + '</span>'
+          + '<strong>' + formatMoney(info.price) + ' / ' + (info.unit === "Panels" ? "panel" : "sq ft") + '</strong>'
+          + '</div>';
+      }).join("");
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("hidden");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toast.classList.add("hidden");
+        }, 3500);
+      }
+
+      function addLineItem(prefill) {
+        prefill = prefill || {};
+        const id = "li-" + (++lineSeq);
+        const wrap = document.createElement("div");
+        wrap.className = "line-item rounded-2xl border border-stone-900/10 bg-white/70 p-4 space-y-3";
+        wrap.dataset.id = id;
+        wrap.innerHTML =
+            '<div class="flex items-center justify-between">'
+          + '  <span class="text-[11px] font-semibold text-stone-500 uppercase tracking-[0.18em]">Line item</span>'
+          + '  <button type="button" class="remove-line text-xs font-semibold text-red-600 hover:underline">Remove</button>'
+          + '</div>'
+          + '<div class="grid md:grid-cols-2 gap-3">'
+          + '  <input class="li-desc w-full rounded-xl border border-stone-300 bg-white/90 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" placeholder="Description e.g. FUNCTION ROOM" />'
+          + '  <input class="li-meas w-full rounded-xl border border-stone-300 bg-white/90 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" placeholder="Meas / Area e.g. 861 sqft or 2.5M x 2.6M" />'
+          + '</div>'
+          + '<div class="grid grid-cols-2 md:grid-cols-4 gap-3">'
+          + '  <input class="li-qty w-full rounded-xl border border-stone-300 bg-white/90 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" type="number" min="0" step="any" placeholder="Qty" />'
+          + '  <input class="li-unit w-full rounded-xl border border-stone-300 bg-white/90 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" placeholder="Unit e.g. Panels" />'
+          + '  <input class="li-price w-full rounded-xl border border-stone-300 bg-white/90 px-3 py-2 text-sm focus:border-stone-900 focus:ring-2 focus:ring-stone-900/10" type="number" min="0" step="0.01" placeholder="Unit price" />'
+          + '  <input class="li-amount w-full rounded-xl border border-stone-200 bg-stone-100 px-3 py-2 text-sm text-stone-700" readonly placeholder="Amount" />'
+          + '</div>';
+
+        lineItemsEl.appendChild(wrap);
+
+        if (prefill.description) wrap.querySelector(".li-desc").value = prefill.description;
+        if (prefill.unit) wrap.querySelector(".li-unit").value = prefill.unit;
+        if (prefill.price) wrap.querySelector(".li-price").value = prefill.price;
+
+        wrap.querySelectorAll("input").forEach(function (input) {
+          input.addEventListener("input", refreshPreview);
+        });
+        wrap.querySelector(".remove-line").addEventListener("click", function () {
+          wrap.remove();
+          refreshPreview();
+        });
+
+        refreshPreview();
+      }
+
+      function getLineItems() {
+        return Array.prototype.slice.call(lineItemsEl.querySelectorAll(".line-item")).map(function (row) {
+          const qty = toNumber(row.querySelector(".li-qty").value);
+          const unitPrice = toNumber(row.querySelector(".li-price").value);
+          const amount = qty * unitPrice;
+          row.querySelector(".li-amount").value = amount ? formatMoney(amount) : "";
+          return {
+            description: row.querySelector(".li-desc").value.trim(),
+            measurement: row.querySelector(".li-meas").value.trim(),
+            qty: qty,
+            unit: row.querySelector(".li-unit").value.trim(),
+            unit_price: unitPrice,
+            amount: amount
+          };
+        });
+      }
+
+      function getTotals(items, discountPercent) {
+        const subtotal = items.reduce(function (sum, item) { return sum + item.amount; }, 0);
+        const pct = Math.max(0, Math.min(100, discountPercent));
+        const discount = subtotal * (pct / 100);
+        return { subtotal: subtotal, discount: discount, total: subtotal - discount, discountPercent: pct };
+      }
+
+      function refreshPreview() {
+        const items = getLineItems();
+        const totals = getTotals(items, toNumber(discountPercentEl.value));
+        const clientName = document.getElementById("customerName").value.trim();
+        const dateText = formatDate(quoteDateEl.value);
+
+        const metaBits = [];
+        if (clientName) metaBits.push("Client: " + escapeHtml(clientName));
+        if (dateText) metaBits.push("Date: " + escapeHtml(dateText));
+        previewMeta.innerHTML = metaBits.join(" &middot; ");
+
+        if (!items.length) {
+          previewItems.innerHTML = '<tr><td colspan="5" class="px-3 py-4 text-center text-stone-400">No line items yet</td></tr>';
+        } else {
+          previewItems.innerHTML = items.map(function (item) {
+            const qtyText = item.qty ? (item.qty + (item.unit ? " " + item.unit : "")) : "";
+            return '<tr>'
+              + '<td class="px-3 py-2 align-top">' + escapeHtml(qtyText) + '</td>'
+              + '<td class="px-3 py-2 align-top">' + escapeHtml(item.measurement) + '</td>'
+              + '<td class="px-3 py-2 align-top">' + escapeHtml(item.description) + '</td>'
+              + '<td class="px-3 py-2 align-top text-right whitespace-nowrap">' + (item.unit_price > 0 ? formatMoney(item.unit_price) : '—') + '</td>'
+              + '<td class="px-3 py-2 align-top text-right whitespace-nowrap">' + (item.amount > 0 ? formatMoney(item.amount) : '—') + '</td>'
+              + '</tr>';
+          }).join("");
+        }
+
+        subtotalLabel.textContent = formatMoney(totals.subtotal);
+        discountText.textContent = "Less " + (totals.discountPercent || 0) + "% discount";
+        discountLabel.textContent = "-" + formatMoney(totals.discount);
+        totalLabel.textContent = formatMoney(totals.total);
+      }
+
+      function buildQuotationDocument(data) {
+        const lines = [];
+        lines.push("GRANDINFINITY VARIETY TRADING");
+        lines.push("QUOTATION / PROPOSAL");
+        lines.push("");
+        lines.push("Client   : " + data.clientName);
+        lines.push("Jobsite  : " + data.address);
+        if (data.attention) lines.push("Attn     : " + data.attention);
+        lines.push("Date     : " + data.dateText);
+        lines.push("");
+        lines.push("Qty | Meas/Area | Description | Unit Price | Amount");
+        data.items.forEach(function (item) {
+          const qtyText = item.qty ? (item.qty + (item.unit ? " " + item.unit : "")) : "";
+          lines.push([
+            qtyText,
+            item.measurement,
+            item.description,
+            item.unit_price ? formatMoney(item.unit_price) : "",
+            formatMoney(item.amount)
+          ].join(" | "));
+        });
+        lines.push("");
+        lines.push("Subtotal             : " + formatMoney(data.totals.subtotal));
+        lines.push("Less " + data.totals.discountPercent + "% discount   : -" + formatMoney(data.totals.discount));
+        lines.push("TOTAL AMOUNT         : " + formatMoney(data.totals.total));
+        lines.push("VAT INCLUSIVE");
+        lines.push("");
+        lines.push("Terms          : " + data.terms);
+        lines.push("Delivery       : " + data.delivery);
+        lines.push("Price Validity : " + data.priceValidity);
+        if (data.submittedBy) {
+          lines.push("");
+          lines.push("Submitted by   : " + data.submittedBy);
+        }
+        return lines.join("\n");
+      }
+
+      [discountPercentEl, quoteDateEl, document.getElementById("customerName")].forEach(function (el) {
+        el.addEventListener("input", refreshPreview);
+        el.addEventListener("change", refreshPreview);
+      });
+
+      addLineBtn.addEventListener("click", function () {
+        const product = PRODUCTS[productTypeEl.value];
+        addLineItem({
+          description: productTypeEl.value,
+          unit: product ? product.unit : "",
+          price: product ? product.price : ""
+        });
+      });
+
+      (function seedFirstLine() {
+        const product = PRODUCTS[productTypeEl.value];
+        addLineItem({
+          unit: product ? product.unit : "",
+          price: product ? product.price : ""
+        });
+      })();
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const clientName = document.getElementById("customerName").value.trim();
+        const customerEmail = document.getElementById("customerEmail").value.trim();
+        const address = document.getElementById("installationAddress").value.trim();
+        const attention = document.getElementById("attention").value.trim();
+        const reference = document.getElementById("reference").value.trim();
+        const notes = document.getElementById("notes").value.trim();
+        const terms = document.getElementById("terms").value.trim();
+        const delivery = document.getElementById("delivery").value.trim();
+        const priceValidity = document.getElementById("priceValidity").value.trim();
+        const submittedBy = document.getElementById("submittedBy").value.trim();
+        const dateText = formatDate(quoteDateEl.value);
+
+        const items = getLineItems().filter(function (item) {
+          return item.description || item.amount > 0;
+        });
+        const totals = getTotals(items, toNumber(discountPercentEl.value));
+
+        if (!clientName || !customerEmail || !address) {
+          showToast("Complete client name, email, and jobsite address first.");
+          return;
+        }
+        if (!items.length || totals.subtotal <= 0) {
+          showToast("Add at least one line item with a quantity and unit price.");
+          return;
+        }
+        if (!SHEETS_WEBHOOK || SHEETS_WEBHOOK.startsWith("PASTE_")) {
+          showToast("Add the Google Apps Script webhook URL first.");
+          return;
+        }
+
+        const quotationDocument = buildQuotationDocument({
+          clientName: clientName,
+          address: address,
+          attention: attention,
+          dateText: dateText,
+          items: items,
+          totals: totals,
+          terms: terms,
+          delivery: delivery,
+          priceValidity: priceValidity,
+          submittedBy: submittedBy
+        });
+
+        const itemLinesText = items.map(function (item) {
+          const qtyText = item.qty ? (item.qty + (item.unit ? " " + item.unit : "")) : "";
+          return "- " + [item.description, item.measurement, qtyText, formatMoney(item.unit_price), formatMoney(item.amount)]
+            .filter(Boolean).join(" | ");
+        }).join("\n");
+
+        const productTypes = [];
+        items.forEach(function (item) {
+          if (item.description && productTypes.indexOf(item.description) === -1) {
+            productTypes.push(item.description);
+          }
+        });
+
+        const adminMessage = [
+          "Admin Manual Quote Entry — Grand Infinity Variety Trading",
+          "",
+          "Client: " + clientName,
+          "Email: " + customerEmail,
+          "Jobsite: " + address,
+          attention ? "Attn: " + attention : null,
+          "Date: " + dateText,
+          "",
+          "Line Items:",
+          itemLinesText,
+          "",
+          "Subtotal: " + formatMoney(totals.subtotal),
+          "Discount (" + totals.discountPercent + "%): -" + formatMoney(totals.discount),
+          "Total Amount (VAT inclusive): " + formatMoney(totals.total),
+          reference ? "Reference: " + reference : null,
+          notes ? "Notes: " + notes : null
+        ].filter(function (x) { return x !== null; }).join("\n");
+
+        const customerMessage = [
+          "Hi " + clientName + ",",
+          "",
+          "Here is your quotation summary from Grand Infinity Variety Trading.",
+          "",
+          quotationDocument,
+          "",
+          notes ? "Notes: " + notes : null,
+          "",
+          "This quotation remains subject to final review and measurement confirmation.",
+          "",
+          "Grand Infinity Variety Trading"
+        ].filter(function (x) { return x !== null; }).join("\n");
+
+        const sheetsPayload = {
+          timestamp: new Date().toISOString(),
+          source: "admin_manual_quote",
+          admin_mode: true,
+          name: clientName,
+          email: customerEmail,
+          address: address,
+          attention: attention,
+          quote_date: quoteDateEl.value,
+          quote_date_label: dateText,
+          blinds_type: productTypes.join(", "),
+          product_types: productTypes,
+          line_items: items,
+          line_items_text: itemLinesText,
+          subtotal: totals.subtotal,
+          discount: totals.discount,
+          discount_percent: totals.discountPercent,
+          estimated_total: totals.total,
+          vat_inclusive: true,
+          terms: terms,
+          delivery: delivery,
+          price_validity: priceValidity,
+          submitted_by: submittedBy,
+          internal_reference: reference,
+          notes: notes,
+          quotation_document: quotationDocument,
+          customer_subject: "Your Quotation — Grand Infinity Variety Trading",
+          customer_message: customerMessage,
+          admin_subject: reference ? "Admin Quote Entry — " + reference : "Admin Quote Entry — " + clientName,
+          admin_message: adminMessage
+        };
+
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Creating entry...";
+
+        try {
+          await fetch(SHEETS_WEBHOOK, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(sheetsPayload)
+          });
+
+          showToast("Quotation entry sent to Google Sheets.");
+          form.reset();
+          discountPercentEl.value = "10";
+          document.getElementById("terms").value = "30 days UPI";
+          document.getElementById("delivery").value = "5-7 working days";
+          document.getElementById("priceValidity").value = "30 days";
+          quoteDateEl.value = new Date().toISOString().slice(0, 10);
+          lineItemsEl.innerHTML = "";
+          const product = PRODUCTS[productTypeEl.value];
+          addLineItem({ unit: product ? product.unit : "", price: product ? product.price : "" });
+          refreshPreview();
+        } catch (error) {
+          showToast("The Google Sheets request failed. Check the webhook deployment.");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+      });
+
+      refreshPreview();
+    })();
+  </script>
+</body>
+</html>

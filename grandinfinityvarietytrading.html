@@ -240,7 +240,8 @@
     "Wood Blinds": 500
   };
   const RECIPIENT = "luispahutan@gmail.com";
-  // Google Apps Script Web App URL — append form submissions to a Google Sheet.
+  // Google Apps Script Web App URL.
+  // This endpoint should append to Google Sheets and send customer/admin emails.
   // Replace this with the deployed Web App URL from luispahutan@gmail.com's Apps Script.
   const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbwy_VI27Kqo246w7pdGrpvwULIx_rVyIfsJIzcF5cu-XEDOg3lfFLIizX11kxxPavFN/exec";
 
@@ -397,15 +398,14 @@
       `Note: Quotation pending review. Out-of-town fees may apply if address is outside NCR.`
     ].join('\n');
 
-    const autoResponse = [
+    const customerMessage = [
       `Hi ${name},`,
       ``,
-      `Thank you for requesting a quote from Grand Infinity Variety Trading. We've received your details and our team is reviewing your request — we'll be in touch shortly to confirm and arrange next steps.`,
+      `Thank you for requesting a quote from Grand Infinity Variety Trading. We've received your details and our team is reviewing your request.`,
       ``,
       `Please note: this estimate is subject to review. If your installation address is outside Metro Manila (NCR), out-of-town fees may apply and will be reflected in your final quotation.`,
       ``,
-      `Here's a copy of your submitted quotation for your records:`,
-      ``,
+      `Quote Summary`,
       `Blinds Type: ${type} (₱${price}/sq ft)`,
       `Installation Address: ${address}`,
       ``,
@@ -417,9 +417,8 @@
       `Discount (10%): -${fmt(discount)}`,
       `Estimated Total: ${fmt(total)} (pending review)`,
       ``,
-      `If you have any questions, simply reply to this email or reach us at luispahutan@gmail.com.`,
+      `We'll contact you shortly with the final confirmed quotation.`,
       ``,
-      `Warm regards,`,
       `Grand Infinity Variety Trading`
     ].join('\n');
 
@@ -428,7 +427,6 @@
       _template: 'table',
       _captcha: 'false',
       _replyto: email,
-      _autoresponse: autoResponse,
       name,
       email,
       address,
@@ -448,6 +446,7 @@
 
     const sheetsPayload = {
       timestamp: new Date().toISOString(),
+      owner_email: RECIPIENT,
       name,
       email,
       address,
@@ -458,7 +457,11 @@
       window_count: windows.length,
       subtotal: subtotal,
       discount: discount,
-      estimated_total: total
+      estimated_total: total,
+      customer_subject: `Your Quote Request — Grand Infinity Variety Trading`,
+      customer_message: customerMessage,
+      admin_subject: `Quote Request — ${name}`,
+      admin_message: message
     };
 
     try {

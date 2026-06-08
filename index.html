@@ -169,6 +169,11 @@
                   <optgroup label="Windbreaker (per panel)">
                     <option value="Windbreaker">Windbreaker — ₱39,450 / panel</option>
                   </optgroup>
+                  <optgroup label="Curtains (per panel)">
+                    <option value="Blackout only">Blackout only — ₱3,800 / panel</option>
+                    <option value="Sheers only">Sheers only — ₱2,200 / panel</option>
+                    <option value="Double Curtains">Double Curtains — ₱4,800 / panel</option>
+                  </optgroup>
                 </select>
               </div>
               <button type="button" id="addLineBtn"
@@ -303,6 +308,11 @@
         "Venetian Blinds": 300,
         "Wood Blinds": 500
       };
+      const CURTAIN_PRICES = {
+        "Blackout only": 3800,
+        "Sheers only": 2200,
+        "Double Curtains": 4800
+      };
       const WINDBREAKER_PRICE = 39450;
 
       const PRODUCTS = {};
@@ -310,6 +320,9 @@
         PRODUCTS[entry[0]] = { price: entry[1], unit: "sqft", basis: "per sq ft" };
       });
       PRODUCTS["Windbreaker"] = { price: WINDBREAKER_PRICE, unit: "Panels", basis: "per panel" };
+      Object.entries(CURTAIN_PRICES).forEach(function (entry) {
+        PRODUCTS[entry[0]] = { price: entry[1], unit: "Panels", basis: "per panel" };
+      });
 
       const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbwy_VI27Kqo246w7pdGrpvwULIx_rVyIfsJIzcF5cu-XEDOg3lfFLIizX11kxxPavFN/exec";
 

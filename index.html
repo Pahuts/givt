@@ -89,7 +89,21 @@
         </div>
 
         <form id="adminQuoteForm" class="p-6 md:p-8 space-y-7">
-          <section class="space-y-4">
+          <section class="rounded-2xl border border-amber-700/20 bg-amber-50/70 p-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <label for="balconyCoverMode" class="inline-flex items-center gap-2 text-sm font-medium text-stone-800">
+                <input id="balconyCoverMode" type="checkbox"
+                  class="h-4 w-4 rounded border-stone-300 text-amber-700 focus:ring-amber-700" />
+                Is this for a balcony cover?
+              </label>
+              <button id="createPdfSheetBtn" type="button"
+                class="hidden inline-flex items-center justify-center rounded-full border border-amber-700/40 bg-amber-100 px-6 py-3 text-sm font-semibold text-amber-900 hover:bg-amber-200 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                Create Balcony Cover Sheet
+              </button>
+            </div>
+          </section>
+
+          <section class="manual-fields space-y-4">
             <div class="flex items-center justify-between gap-3">
               <h2 class="serif text-2xl">Quotation details</h2>
               <p class="text-xs text-stone-500">Fields marked with <span class="text-amber-700">*</span> are required</p>
@@ -102,8 +116,8 @@
                   class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
               </div>
               <div>
-                <label for="customerEmail" class="block text-sm font-medium text-stone-700 mb-1.5">Customer email <span class="text-amber-700">*</span></label>
-                <input id="customerEmail" type="email" required placeholder="client@example.com"
+                <label for="customerEmail" class="block text-sm font-medium text-stone-700 mb-1.5">Customer email <span class="text-stone-400 text-xs">(optional)</span></label>
+                <input id="customerEmail" type="email" placeholder="client@example.com"
                   class="w-full rounded-2xl border border-stone-300 bg-white/90 px-4 py-3 text-sm focus:border-stone-900 focus:ring-4 focus:ring-stone-900/10" />
               </div>
             </div>
@@ -133,7 +147,7 @@
             </div>
           </section>
 
-          <section class="space-y-4 border-t border-stone-900/10 pt-6">
+          <section class="manual-fields space-y-4 border-t border-stone-900/10 pt-6">
             <div class="flex items-center justify-between gap-3">
               <h2 class="serif text-2xl">Line items</h2>
               <p class="text-xs text-stone-500">One row per area or product line</p>
@@ -174,7 +188,7 @@
             </div>
           </section>
 
-          <section class="space-y-4 border-t border-stone-900/10 pt-6">
+          <section class="manual-fields space-y-4 border-t border-stone-900/10 pt-6">
             <div class="flex items-center justify-between gap-3">
               <h2 class="serif text-2xl">Proposal terms</h2>
               <p class="text-xs text-stone-500">Shown at the bottom of the quotation</p>
@@ -218,7 +232,7 @@
             </div>
           </section>
 
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-stone-900/10 pt-6">
+          <div class="manual-fields flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-stone-900/10 pt-6">
             <p class="text-xs text-stone-500 max-w-xl">
               This page submits a structured quotation payload directly to the same Google Apps Script endpoint used by the public quote form, tagged as an admin entry.
             </p>
@@ -300,7 +314,9 @@
       const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbwy_VI27Kqo246w7pdGrpvwULIx_rVyIfsJIzcF5cu-XEDOg3lfFLIizX11kxxPavFN/exec";
 
       const form = document.getElementById("adminQuoteForm");
+      const balconyCoverModeEl = document.getElementById("balconyCoverMode");
       const submitBtn = document.getElementById("submitBtn");
+      const createPdfSheetBtn = document.getElementById("createPdfSheetBtn");
       const productTypeEl = document.getElementById("productType");
       const addLineBtn = document.getElementById("addLineBtn");
       const lineItemsEl = document.getElementById("lineItems");
@@ -361,6 +377,75 @@
         toastTimer = setTimeout(function () {
           toast.classList.add("hidden");
         }, 3500);
+      }
+
+      function setBalconyMode(enabled) {
+        const manualSections = form.querySelectorAll(".manual-fields");
+        const formControls = form.querySelectorAll("input, select, textarea, button");
+
+        manualSections.forEach(function (section) {
+          section.classList.toggle("hidden", enabled);
+        });
+
+        createPdfSheetBtn.classList.toggle("hidden", !enabled);
+
+        formControls.forEach(function (control) {
+          const shouldKeepEnabled = control === balconyCoverModeEl || control === createPdfSheetBtn;
+          if (!shouldKeepEnabled) {
+            control.disabled = enabled;
+          }
+        });
+      }
+
+      async function postToSheets(payload) {
+        await fetch(SHEETS_WEBHOOK, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      function getBalconyCoverSheetTemplate() {
+        return {
+          title: "PRICE LIST OF BALCONY COVER - HOOK TYPE",
+          heading_rows: {
+            from: "GRANDINFINITY VARIETY TRADING",
+            from_contact: "(0917) 6730430"
+          },
+          sections: [
+            {
+              heading: "Height (m) 0.50 / 0.80 (m)",
+              entries: [
+                { size: "6.7m x 7.2m", price: 4500 }
+              ]
+            },
+            {
+              heading: "Width (m)",
+              entries: [
+                { size: "6.1m x 6.6m", price: 4100 },
+                { size: "5.7m x 6.0m", price: 3700 },
+                { size: "5.1m x 5.6m", price: 3400 },
+                { size: "4.5m to 5.0m", price: 2900 },
+                { size: "3.9m to 4.4m", price: 2700 },
+                { size: "3.3m to 3.8m", price: 2500 },
+                { size: "2.7m to 3.2m", price: 2200 },
+                { size: "2.1m to 2.6m", price: 1900 },
+                { size: "1.5m to 2.0m", price: 1700 },
+                { size: "1.0m to 1.4m", price: 1400 }
+              ]
+            }
+          ],
+          notes: [
+            "PVC Coated cup Hooks and Zip ties included.",
+            "Delivery Charge not included. Charge will depend on how far project site will be.",
+            "Installation not included.",
+            "(m) - Meter"
+          ],
+          price_validity: "Six (6) Months"
+        };
       }
 
       function addLineItem(prefill) {
@@ -525,6 +610,51 @@
         });
       })();
 
+      balconyCoverModeEl.addEventListener("change", function () {
+        setBalconyMode(balconyCoverModeEl.checked);
+      });
+
+      setBalconyMode(false);
+
+      createPdfSheetBtn.addEventListener("click", async function () {
+        const attention = document.getElementById("attention").value.trim() || "BRIO TOWER";
+        const submittedBy = document.getElementById("submittedBy").value.trim() || "Marie Sancho";
+        const dateRaw = quoteDateEl.value;
+        const dateLabel = formatDate(dateRaw);
+
+        if (!SHEETS_WEBHOOK || SHEETS_WEBHOOK.startsWith("PASTE_")) {
+          showToast("Add the Google Apps Script webhook URL first.");
+          return;
+        }
+
+        const payload = {
+          timestamp: new Date().toISOString(),
+          source: "admin_manual_quote",
+          action: "create_balcony_cover_price_sheet",
+          quote_date: dateRaw,
+          quote_date_label: dateLabel,
+          attention: attention,
+          submitted_by: submittedBy,
+          template: getBalconyCoverSheetTemplate()
+        };
+
+        const originalText = createPdfSheetBtn.textContent;
+        createPdfSheetBtn.disabled = true;
+        submitBtn.disabled = true;
+        createPdfSheetBtn.textContent = "Creating balcony cover sheet...";
+
+        try {
+          await postToSheets(payload);
+          showToast("Balcony cover price sheet request sent to Google Sheets.");
+        } catch (error) {
+          showToast("Failed to create balcony cover sheet. Check the webhook deployment.");
+        } finally {
+          createPdfSheetBtn.disabled = false;
+          submitBtn.disabled = false;
+          createPdfSheetBtn.textContent = originalText;
+        }
+      });
+
       form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -546,8 +676,8 @@
         });
         const totals = getTotals(items, toNumber(discountPercentEl.value));
 
-        if (!clientName || !customerEmail || !address) {
-          showToast("Complete client name, email, and jobsite address first.");
+        if (!clientName || !address) {
+          showToast("Complete client name and jobsite address first.");
           return;
         }
         if (!items.length || totals.subtotal <= 0) {
@@ -590,7 +720,7 @@
           "Admin Manual Quote Entry — Grand Infinity Variety Trading",
           "",
           "Client: " + clientName,
-          "Email: " + customerEmail,
+          customerEmail ? "Email: " + customerEmail : null,
           customerPhone ? "Phone: " + customerPhone : null,
           "Jobsite: " + address,
           attention ? "Attn: " + attention : null,
@@ -658,14 +788,7 @@
         submitBtn.textContent = "Creating entry...";
 
         try {
-          await fetch(SHEETS_WEBHOOK, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify(sheetsPayload)
-          });
+          await postToSheets(sheetsPayload);
 
           showToast("Quotation entry sent to Google Sheets.");
           form.reset();
